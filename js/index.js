@@ -5,20 +5,28 @@ $(document).ready(function(){
   ticTac.gameTable();
 
   let currentPlayer = 1;
+  
   //function
   console.log("The document is ready");
 
+  let flag = false;  //  game over turn true;
   const gameReset = function(){
     ticTac.reset();
     $(".squres").removeClass("player1");
     $(".squres").removeClass("player2");
   }
-
+     $('#p4').click(function(){
+       gameReset();
+       flag = false;
+     })
 
 
    $(".squres").click(function(){
      if (ticTac.checkClick($(this).attr('id'))){
        console.log('You can not cliked there');
+       return;
+     }
+     if (flag){
        return;
      }
 
@@ -41,7 +49,8 @@ $(document).ready(function(){
           console.log(`YOU ARE THE WINNER1:${ticTac.player1Array}`);
           ticTac.player1Score++;
           $('#player1').text(ticTac.player1Score);
-          gameReset();
+          flag = true;  //game over
+          // gameReset();
           return;
 
         }
@@ -50,7 +59,8 @@ $(document).ready(function(){
       console.log(`counter: ${ticTac.counter}`);
       if (ticTac.counter >=9){
         console.log(`player1 reset: ${ticTac.counter}`)
-        gameReset();
+        flag =true;
+        // gameReset();
         return;
       }
       currentPlayer = 0;
@@ -72,7 +82,8 @@ $(document).ready(function(){
           console.log("YOU ARE THE WINNER2 "+ticTac.player2Array);
           ticTac.player2Score++;
           $('#player2').text(ticTac.player2Score);
-          gameReset();
+          flag = true;
+          // gameReset();
           return;
 
         }
@@ -81,7 +92,8 @@ $(document).ready(function(){
       console.log(`counter: ${ticTac.counter}`);
       if (ticTac.counter >=9){
         console.log(`player2 reset ${ticTac.counter}`)
-        gameReset();
+        flag = true;
+        // gameReset();
         return;
       }
       // ticTac.counter ++;

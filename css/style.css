@@ -29,9 +29,16 @@ td
   float: left;
 }
 #playerChose{
+  width:600px;
   height: 50px;
   margin-left: 350px;
 
+}
+#p4{
+  background-color: lightblue;
+  float:right;
+  width:80px;
+  height:35px;
 }
 
 
@@ -44,11 +51,11 @@ td
 #p1{
   float: left;
 }
-#player1,#player2{
+#player1,#player2,#player3,#p4{
   font-size: 30px;
 }
 
-#p2{
+#p2, #p3{
   float:left;
   margin-left:20px;
 }

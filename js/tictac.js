@@ -27,7 +27,7 @@ const size = 3;
 
      player1Array:[],  //hold all the click play1 did
      player2Array:[],  //hold all the click play2 did
-     
+
     //generate a talbe for Tic Tac Toe game based on size;
     gameTable: function(){
          let account = 1;
@@ -95,6 +95,11 @@ const size = 3;
       ticTac.winnerFound = false;
       console.log("reset was called!!!!!");
       console.log(this.player1Array+"   "+this.player2Array);
-     }
+    },
+
+    //computer generate click id
+    computer:function(){
+      return 3;
+    }
 
   }
