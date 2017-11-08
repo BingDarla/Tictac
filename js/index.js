@@ -16,6 +16,8 @@ $(document).ready(function() {
     ticTac.reset();
     $(".squres").removeClass("player1");
     $(".squres").removeClass("player2");
+    $('p1').css('background-color', 'lightpink');
+
     playFlag1 = currentPlayer1;
     playFlag2 = 0;
   }
@@ -27,21 +29,31 @@ $(document).ready(function() {
 
   $('#p1').click(function() {
     currentPlayer1 = 1;
+    $('#player1').addClass("choose");
     playFlag1 = 1;
     console.log('player1 is choosen');
   })
+
   $('#p2').click(function() {
     currentPlayer2 = 1;
-    console.log('player2 is choosen')
+    playFlag2 = 0;
+    $('#player2').addClass("choose");
+    console.log('player2 is choosen');
   })
 
+  $('#p3').click(function(){
+    currentPlayer2 = 0;
+    $('#player3').addClass("choose");
+    console.log("AI is choosen");
+
+  })
 
 
 
 
 
   $(".squres").click(function() {
-    if (ticTac.checkClick($(this).attr('id'))) {
+    if (ticTac.checkClick(+$(this).attr('id'))) {
       console.log('You can not click there');
       return;
     }
@@ -49,7 +61,7 @@ $(document).ready(function() {
       return;
     }
 
-    if (playFlag1 === 1 && !playFlag2) {
+    if (playFlag1 ) {
       // condition:check that grid is not clicked
 
       $(this).addClass("player1");
@@ -66,6 +78,8 @@ $(document).ready(function() {
         console.log('player1Array was checked');
         console.log("after check" + ticTac.winnerFound);
         if (ticTac.winnerFound) {
+          $('#winner').fadeIn(3000);
+          $('#winner').fadeOut(2000);
           console.log(`YOU ARE THE WINNER1:${ticTac.player1Array}`);
           ticTac.player1Score++;
           $('#player1').text(ticTac.player1Score);
@@ -87,6 +101,8 @@ $(document).ready(function() {
         playFlag1 = 0;
         playFlag2 = 1;
         console.log(`playFlag2 and playFlag1:   ${playFlag2}, ${playFlag1}`);
+        return;
+
       } else if (!currentPlayer2) {
         //**********************AI AI AI**************
         //***********************AI**get in********* count can reach 10
@@ -101,7 +117,9 @@ $(document).ready(function() {
         if (ticTac.player2Array.length >= 3) {
           if (ticTac.checkWinner(ticTac.player2Array)){
 
-
+              document.getElementById("over").play();
+              $("#lost").fadeIn(3000);
+              $('#lost').fadeOut(3000);
               console.log("YOU ARE THE WINNER2 " + ticTac.player2Array);
               ticTac.AIscore++;
               $('#player3').text(ticTac.AIscore);
@@ -122,6 +140,7 @@ $(document).ready(function() {
         }
 
         playFlag1 = 1;
+        return;
 
 
 
@@ -163,6 +182,7 @@ $(document).ready(function() {
 
       playFlag2 = 0;
       playFlag1 = 1;
+      return;
     }
 
 

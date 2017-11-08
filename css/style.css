@@ -6,11 +6,11 @@ td {
   font-size: 20pt;
 }
 
-/*td:hover
+td:hover
 {
     background-color: #dbdbdb;
     cursor:pointer;
-}*/
+}
 
 .player1 {
   background-image: url(../img/1.jpg);
@@ -34,11 +34,17 @@ td {
   margin-left: 350px;
 }
 
+
 #p4 {
   background-color: lightblue;
   float: right;
-  width: 80px;
-  height: 35px;
+  width: 90px;
+  height: 45px;
+  border-radius: 3px;
+  border: 2px solid #000099;
+  transform: translate3d(-50%,50%,0);
+
+
 }
 
 #game {
@@ -56,8 +62,18 @@ td {
   font-size: 30px;
 }
 
-#p1, #p2 {
+#p1, #p2,#p3 {
   float: left;
   margin-left: 20px;
   background-color: lightpink;
+}
+.choose{
+  background: purple;
+}
+#winner,#lost{
+  position:absolute;
+  display: none;
+  margin-top:40px;
+  margin-left: 40px;
+
 }
