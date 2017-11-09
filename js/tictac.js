@@ -48,7 +48,7 @@ const ticTac = {
   },
   //checking function if playersArray contain Winner array
   checkWinner: function(playersArray) {
-    console.log("checkingwinner function was called");
+    // console.log("checkingwinner function was called");
     for (key in this.winner) {
       let winArray = this.winner[key];
       let found = true;
@@ -69,7 +69,7 @@ const ticTac = {
       }
       if (found === true) {
         console.log("You win!!");
-        console.log(this.winFlag);
+        // console.log(this.winFlag);
         this.winnerFound = true;
         return true;
         //alert("You win");
@@ -82,15 +82,15 @@ const ticTac = {
     console.log("Total in checkClick:" + this.totalArray);
     // debugger;
     for (let i = 0; i < this.totalArray.length; i++) {
-      if (+id === +this.totalArray[i]){
+      if (+id === +this.totalArray[i]) {
 
-          console.log('checkclick true'+id);
-          return true;
+
+        return true;
       }
 
     }
-       console.log('checkclick false'+id);
-       return false;
+
+    return false;
   },
 
   //reset function
@@ -100,98 +100,86 @@ const ticTac = {
     this.player2Array = [];
     this.totalArray = [];
     ticTac.winnerFound = false;
-    console.log("reset was called!!!!!");
+    // console.log("reset was called!!!!!");
     console.log(this.player1Array + "   " + this.player2Array);
   },
 
-  //computer generate click id
+  //***************AI smart strategy********************
+  AIsmart: function(playArray) {
+    //*************check the winner pattern
+    for (key in this.winner) {
+
+      let counter1 = 0 // to record how close to win. 2 ==1 left to win
+      let winArray = this.winner[key];
+      for (let i = 0; i < winArray.length; i++) {
+        for (let j = 0; j < playArray.length; j++) {
+          if (+winArray[i] === +playArray[j]) {
+            counter1++;
+            break;
+          }
+        }
+
+      }
+      if (counter1 === 2) {
+
+        for (let i = 0; i < winArray.length; i++) {
+          for (let j = 0; j < playArray; j++) {
+            if (+winArray[i] === +playArray[j])
+              break;
+          }
+
+          if (!(this.checkClick(winArray[i])))
+            return winArray[i];
+        }
+      }
+    }
+    return 0;
+  },
+
+
+  //*************Ai main function****************************
   AIplay: function() {
     let remain = [];
 
 
-    if (!this.checkClick(5) ){
+    if (!this.checkClick(5)) {
       return 5;
     }
     //checking AI's going to win******************
     if (this.player2Array.length >= 2) {
-      console.log('checking AI  is going to win')
-      for (key in this.winner) {
-
-        let counter1 = 0 // to record how close to win. 2 ==1 left to win
-        let winArray = this.winner[key];
-        for (let i = 0; i < winArray.length; i++) {
-          for (let j = 0; j < this.player2Array.length; j++) {
-            if (+winArray[i] === +this.player2Array[j] ){
-              counter1++;
-              break;
-            }
-          }
-
-        }
-        if (counter1 === 2) {
-          console.log("find AI winner pattern:" +winArray);
-          for (let i = 0; i < winArray.length; i++) {
-            for (let j = 0; j < this.player2Array.length; j++) {
-              if (+winArray[i] === +this.player2Array[j])
-                break;
-            }
-
-            if ( !(this.checkClick( winArray[i]) )  )
-            return winArray[i];
-          }
-        }
-      }
+      console.log('checking AI  is going to win');
+      let r = this.AIsmart(this.player2Array);
+      if (r)
+        return r;
     }
 
     // checking if play1 going to win, click the 3rd one.
     if (this.player1Array.length >= 2) {
-      console.log('checking winner 1 is going to win')
-      for (key in this.winner) {
+      console.log('checking winner 1 is going to win');
+      let r = this.AIsmart(this.player1Array);
+      if (r)
+        return r;
 
-        let counter = 0 // to record how close to win. 2 ==1 left to win
-        let winArray = this.winner[key];
-        for (let i = 0; i < winArray.length; i++) {
-          for (let j = 0; j < this.player1Array.length; j++) {
-            if (+winArray[i] === +this.player1Array[j] ){
-              counter++;
-              break;
-            }
-          }
-
-        }
-        if (counter === 2) {
-          console.log("find player1 winner pattern:" +winArray);
-          for (let i = 0; i < winArray.length; i++) {
-            for (let j = 0; j < this.player1Array.length; j++) {
-              if (+winArray[i] === +this.player1Array[j])
-                break;
-            }
-
-            if ( !(this.checkClick( winArray[i]) )  )
-            return winArray[i];
-          }
-        }
-      }
     }
 
-  //check and radom
+    //check and radom
 
     // console.log("before radom tatal list"+this.totalArray);
 
-     for (let k=1; k<10; k++){
+    for (let k = 1; k < 10; k++) {
       //  console.warn('checkClick for ' + k)
-       if (!this.checkClick(k )){
-         remain.push(k);
-       }
+      if (!this.checkClick(k)) {
+        remain.push(k);
+      }
 
     }
 
 
-  //***************radom part
-  console.log('Radom from AI: remain list: '+remain);
-  let r = remain[Math.floor(Math.random()*remain.length)];
-  if (!this.checkClick(r))
-  return r;
+    //***************radom part*********************************
+    // console.log('Radom from AI: remain list: '+remain);
+    let r = remain[Math.floor(Math.random() * remain.length)];
+    if (!this.checkClick(r))
+      return r;
 
 
 

@@ -29,7 +29,7 @@ $(document).ready(function() {
 
   $('#p1').click(function() {
     currentPlayer1 = 1;
-    $('#player1').addClass("choose");
+    $('#p1').css("background",'purple');
     playFlag1 = 1;
     console.log('player1 is choosen');
   })
@@ -37,13 +37,16 @@ $(document).ready(function() {
   $('#p2').click(function() {
     currentPlayer2 = 1;
     playFlag2 = 0;
-    $('#player2').addClass("choose");
+    $('#p2').css('background','purple');
+    $('#p3').css('background','lightpink');
     console.log('player2 is choosen');
   })
 
   $('#p3').click(function(){
     currentPlayer2 = 0;
-    $('#player3').addClass("choose");
+    $('#p3').css('background','purple');
+    $('#p2').css('background','lightpink');
+
     console.log("AI is choosen");
 
   })
