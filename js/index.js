@@ -4,6 +4,7 @@ $(document).ready(function() {
   setInterval(musicPlay, 130000);
   $('.ninja').children().css('visibility', 'hidden');
   $('#r2').css('visibility', 'hidden');
+  $('#AI').css('visibility', 'hidden');
 
   TicTac.gameTable();
 
