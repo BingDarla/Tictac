@@ -1,6 +1,11 @@
 $(document).ready(function() {
 
-  ticTac.gameTable();
+  musicPlay();
+  setInterval(musicPlay,130000);
+  $('.ninja').children().css('visibility','hidden');
+  $('#r2').css('visibility','hidden');
+
+  TicTac.gameTable();
 
   let currentPlayer1 = 0;
   let currentPlayer2 = 0;
@@ -10,26 +15,26 @@ $(document).ready(function() {
   //function
   console.log("The document is ready");
 
-  let flag = false; //  game over turn true;
+  let gameIsOver = false; //  game over turn true;
   //gamereset function
   const gameReset = function() {
-    ticTac.reset();
+    TicTac.reset();
     $(".squres").removeClass("player1");
     $(".squres").removeClass("player2");
-    $('p1').css('background-color', 'lightpink');
+    $('.control').removeClass("selected");
 
     playFlag1 = currentPlayer1;
     playFlag2 = 0;
   }
   //reset button
-  $('#p4').click(function() {
+  $('.reset').click(function() {
     gameReset();
-    flag = false;
+    gameIsOver = false;
   })
 
   $('#p1').click(function() {
     currentPlayer1 = 1;
-    $('#p1').css("background",'purple');
+    $('#p1').addClass("selected");
     playFlag1 = 1;
     console.log('player1 is choosen');
   })
@@ -37,15 +42,15 @@ $(document).ready(function() {
   $('#p2').click(function() {
     currentPlayer2 = 1;
     playFlag2 = 0;
-    $('#p2').css('background','purple');
-    $('#p3').css('background','lightpink');
+    $('#p2').addClass("selected");
+    $('#p3').removeClass("selected");
     console.log('player2 is choosen');
   })
 
   $('#p3').click(function(){
     currentPlayer2 = 0;
-    $('#p3').css('background','purple');
-    $('#p2').css('background','lightpink');
+    $('#p3').addClass("selected");
+    $('#p2').removeClass("selected");
 
     console.log("AI is choosen");
 
@@ -56,11 +61,12 @@ $(document).ready(function() {
 
 
   $(".squres").click(function() {
-    if (ticTac.checkClick(+$(this).attr('id'))) {
+    if (TicTac.checkClick(+$(this).attr('id'))) {
+      $('#r2').css('visibility','visible');
       console.log('You can not click there');
       return;
     }
-    if (flag) {
+    if (gameIsOver) {
       return;
     }
 
@@ -70,33 +76,34 @@ $(document).ready(function() {
       $(this).addClass("player1");
       console.log("player1 is called");
       // console.log($(this).attr('id'));
-      ticTac.player1Array.push(+$(this).attr('id'));
-      // console.log("player1Array: " + ticTac.player1Array);
+      TicTac.player1Array.push(+$(this).attr('id'));
+      // console.log("player1Array: " + TicTac.player1Array);
 
-      ticTac.totalArray.push(+$(this).attr('id'));
-      console.log('After player1 totalArray is :'+ticTac.totalArray);
+      TicTac.totalArray.push(+$(this).attr('id'));
+      console.log('After player1 totalArray is :'+TicTac.totalArray);
 
-      if (ticTac.player1Array.length >= 3) {
-        ticTac.checkWinner(ticTac.player1Array);
+      if (TicTac.player1Array.length >= 3) {
+        TicTac.checkWinner(TicTac.player1Array);
         console.log('player1Array was checked');
-        console.log("after check" + ticTac.winnerFound);
-        if (ticTac.winnerFound) {
-          $('#winner').fadeIn(3000);
-          $('#winner').fadeOut(2000);
-          console.log(`YOU ARE THE WINNER1:${ticTac.player1Array}`);
-          ticTac.player1Score++;
-          $('#player1').text(ticTac.player1Score);
-          flag = true; //game over
-          // gameReset();
+        console.log("after check" + TicTac.winnerFound);
+        //if play1 is winner
+        if (TicTac.winnerFound) {
+          $('#sakura').addClass('winner');
+          $('#sakura').children().css('visibility','visible');
+
+          console.log(`YOU ARE THE WINNER1:${TicTac.player1Array}`);
+          TicTac.player1Score++;
+          $('#player1').text(TicTac.player1Score);
+          gameIsOver = true; //game over
           return;
 
         }
       }
-      ticTac.counter++;
-      console.log(`counter: ${ticTac.counter}`);
-      if (ticTac.counter >= 9) {
-        console.log(`player1 reset: ${ticTac.counter}`)
-        flag = true;
+      TicTac.counter++;
+      console.log(`counter: ${TicTac.counter}`);
+      if (TicTac.counter >= 9) {
+        console.log(`player1 reset: ${TicTac.counter}`)
+        gameIsOver = true;
         // gameReset();
         return;
       }
@@ -110,43 +117,36 @@ $(document).ready(function() {
         //**********************AI AI AI**************
         //***********************AI**get in********* count can reach 10
         // console.log("AI function is called.");
-        let idAi = ticTac.AIplay();
+        let idAi = TicTac.AIplay();
         $('#' + idAi).addClass("player2");
-        ticTac.player2Array.push(+idAi);
-        console.log("player2Array:  " + ticTac.player2Array);
-        ticTac.totalArray.push(+idAi);
-        console.log("After player 2, totalArray is "+ticTac.totalArray);
+        TicTac.player2Array.push(+idAi);
+        console.log("player2Array:  " + TicTac.player2Array);
+        TicTac.totalArray.push(+idAi);
+        console.log("After player 2, totalArray is "+TicTac.totalArray);
         // checking AI whether win or not.
-        if (ticTac.player2Array.length >= 3) {
-          if (ticTac.checkWinner(ticTac.player2Array)){
-
-              document.getElementById("over").play();
-              $("#lost").fadeIn(3000);
-              $('#lost').fadeOut(3000);
-              console.log("YOU ARE THE WINNER2 " + ticTac.player2Array);
-              ticTac.AIscore++;
-              $('#player3').text(ticTac.AIscore);
-              flag = true;
-              // gameReset();
+        if (TicTac.player2Array.length >= 3) {
+          // if Play2 is winnder
+          if (TicTac.checkWinner(TicTac.player2Array)){
+              $('#sasuki').addClass('winner');
+              $('#sasuki').children().css('visibility','visible');
+              console.log("YOU ARE THE WINNER2 " + TicTac.player2Array);
+              TicTac.AIscore++;
+              $('#player3').text(TicTac.AIscore);
+              gameIsOver = true;
               return;
-
             }
           }
         }
-        ticTac.counter++;
-        console.log(`counter: ${ticTac.counter}`);
-        if (ticTac.counter >= 9) {
-          console.log(`player2 reset ${ticTac.counter}`)
-          flag = true;
-          // gameReset();
+        TicTac.counter++;
+        console.log(`counter: ${TicTac.counter}`);
+        if (TicTac.counter >= 9) {
+          console.log(`player2 reset ${TicTac.counter}`)
+          gameIsOver = true;
           return;
         }
 
         playFlag1 = 1;
         return;
-
-
-
       }
 
 //*******************Second player*******************
@@ -155,40 +155,39 @@ $(document).ready(function() {
 
       $(this).addClass("player2");
       console.log("player2 is called");
-      ticTac.player2Array.push(+$(this).attr('id'));
-      console.log("player2Array:  " + ticTac.player2Array);
+      TicTac.player2Array.push(+$(this).attr('id'));
+      console.log("player2Array:  " + TicTac.player2Array);
 
-      ticTac.totalArray.push(+$(this).attr('id'));
+      TicTac.totalArray.push(+$(this).attr('id'));
 
-      if (ticTac.player2Array.length >= 3) {
-        ticTac.checkWinner(ticTac.player2Array);
+      if (TicTac.player2Array.length >= 3) {
+        TicTac.checkWinner(TicTac.player2Array);
         console.log('player2Array was checked');
-        console.log("after check" + ticTac.winnerFound);
-        if (ticTac.winnerFound) {
-          console.log("YOU ARE THE WINNER2 " + ticTac.player2Array);
-          ticTac.player2Score++;
-          $('#player2').text(ticTac.player2Score);
-          flag = true;
-          // gameReset();
+        console.log("after check" + TicTac.winnerFound);
+        if (TicTac.winnerFound) {
+          $('#sasuki').children().css('visibility','visible');
+          console.log("YOU ARE THE WINNER2 " + TicTac.player2Array);
+          $('#sasuki').addClass('winner');
+          TicTac.player2Score++;
+          $('#player2').text(TicTac.player2Score);
+          gameIsOver = true;
           return;
-
         }
       }
-      ticTac.counter++;
-      console.log(`counter: ${ticTac.counter}`);
-      if (ticTac.counter >= 9) {
-        console.log(`player2 reset ${ticTac.counter}`)
-        flag = true;
-        // gameReset();
+
+      TicTac.counter++;
+      console.log(`counter: ${TicTac.counter}`);
+      if (TicTac.counter >= 9) {
+        console.log(`player2 reset ${TicTac.counter}`)
+        gameIsOver = true;
         return;
       }
 
       playFlag2 = 0;
       playFlag1 = 1;
+
       return;
     }
-
-
   })
 
 })
@@ -197,5 +196,5 @@ $(document).ready(function() {
 
 //checking the playersWay
 
-//ticTac.checkWinner([1,5,6,7]);
-// ticTac.checkWinner(['1','5','9']);
+//TicTac.checkWinner([1,5,6,7]);
+// TicTac.checkWinner(['1','5','9']);

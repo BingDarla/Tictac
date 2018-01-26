@@ -2,43 +2,43 @@ const size = 3;
 // use for index of table
 
 
-const ticTac = {
-  winner: {
-    1: ['1', '2', '3'],
-    2: ['4', '5', '6'],
-    3: ['7', '8', '9'],
-    4: ['1', '4', '7'],
-    5: ['2', '5', '8'],
-    6: ['3', '6', '9'],
-    7: ['1', '5', '9'],
-    8: ['3', '5', '7']
-  },
-  player1Score: 0,
-  player2Score: 0,
-  AIscore: 0,
+const TicTac = {
+    winner: {
+      1: ['1', '2', '3'],
+      2: ['4', '5', '6'],
+      3: ['7', '8', '9'],
+      4: ['1', '4', '7'],
+      5: ['2', '5', '8'],
+      6: ['3', '6', '9'],
+      7: ['1', '5', '9'],
+      8: ['3', '5', '7']
+    },
+    player1Score: 0,
+    player2Score: 0,
+    AIscore: 0,
 
-  totalArray: [], // hold all the id players clicked.
-  winFlag: false,
+    totalArray: [], // hold all the id players clicked.
+    winFlag: false,
 
-  winnerFound: false,
-  // true for win
+    winnerFound: false,
+    // true for win
 
-  counter: 0, //if all the grid are clicked
+    counter: 0, //if all the grid are clicked
 
-  player1Array: [], //hold all the click play1 did
-  player2Array: [], //hold all the click play2 did
+    player1Array: [], //hold all the click play1 did
+    player2Array: [], //hold all the click play2 did
 
-  //generate a talbe for Tic Tac Toe game based on size;
-  gameTable: function() {
-    let account = 1;
-    const parent = $('#game');
-    for (let i = 0; i < size; i++) {
-      let row = $('<tr>');
-      $(parent).append(row);
-      // console.log(row);
-      for (let j = 0; j < size; j++) {
-        col = $('<td>')
-        $(row).append(col);
+    //generate a talbe for Tic Tac Toe game based on size;
+    gameTable: function() {
+      let account = 1;
+      const parent = $('#game');
+      for (let i = 0; i < size; i++) {
+        let row = $('<tr>');
+        $(parent).append(row);
+        // console.log(row);
+        for (let j = 0; j < size; j++) {
+          col = $('<td>')
+          $(row).append(col);
         $(col).attr("id", account).attr("class", "squres");
         account++;
       }
@@ -83,11 +83,8 @@ const ticTac = {
     // debugger;
     for (let i = 0; i < this.totalArray.length; i++) {
       if (+id === +this.totalArray[i]) {
-
-
         return true;
       }
-
     }
 
     return false;
@@ -99,7 +96,12 @@ const ticTac = {
     this.player1Array = [];
     this.player2Array = [];
     this.totalArray = [];
-    ticTac.winnerFound = false;
+    TicTac.winnerFound = false;
+    $('#sakura').removeClass('winner');
+    $('#sasuki').removeClass('winner');
+    $('.ninja').children().css('visibility','hidden');
+    $('#r2').css('visibility','hidden');
+
     // console.log("reset was called!!!!!");
     console.log(this.player1Array + "   " + this.player2Array);
   },
@@ -137,7 +139,7 @@ const ticTac = {
   },
 
 
-  //*************Ai main function****************************
+  //*************AI main function****************************
   AIplay: function() {
     let remain = [];
 
@@ -159,31 +161,26 @@ const ticTac = {
       let r = this.AIsmart(this.player1Array);
       if (r)
         return r;
-
     }
 
     //check and radom
 
     // console.log("before radom tatal list"+this.totalArray);
-
     for (let k = 1; k < 10; k++) {
-      //  console.warn('checkClick for ' + k)
       if (!this.checkClick(k)) {
         remain.push(k);
       }
-
     }
-
 
     //***************radom part*********************************
     // console.log('Radom from AI: remain list: '+remain);
     let r = remain[Math.floor(Math.random() * remain.length)];
     if (!this.checkClick(r))
       return r;
-
-
-
-
   }
-
+}
+//background music
+const musicPlay= function() {
+  var audio = document.getElementById("audio");
+  audio.play();
 }
