@@ -71,7 +71,7 @@ td:hover {
 .control {
   height: 3em;
   width: 8em;
-  background-color: rgba(255, 166, 77, 0.7);
+  background-color: rgba(255, 166, 77, 0.2);
   margin: auto 2em;
   display: inline-block;
   font-family: 'Risque', cursive;
